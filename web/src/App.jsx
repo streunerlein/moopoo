@@ -58,6 +58,9 @@ class App extends React.Component {
         words: JSON.parse(words)
       });
     }
+    else {
+      this.saveState();
+    }
   }
 
   saveState() {
