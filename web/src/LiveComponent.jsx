@@ -8,7 +8,7 @@ class LiveComponent extends React.Component {
   onRecordClick() {
     return async () => {
       const originalText = await record();
-      const [ poopifiedText ] = window.poopify({sucks: 'rocks'}, [ originalText ]);
+      const [ poopifiedText ] = window.poopify(this.props.words, [ originalText ]);
       const response = await fetch(
         'https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=AIzaSyDx-aPyKp11pbF4tYzAHj4SYhlVjghMqKU', 
         {

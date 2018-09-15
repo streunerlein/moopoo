@@ -1,41 +1,4 @@
-(function() {
-  const config = {
-    poomap: {
-      /* made for https://en.wikipedia.org/wiki/Machine_learning */
-      "blockchain": "unnecessary complication",
-      "machine intelligence": "overrated technology",
-      "artificial intelligence": "a bunch of if statements (AI)",
-      "machine learning": "machine slavery",
-      "algorithms": "unreadable code",
-      "computers": "rocks with lightning",
-      "computer": "a rock with lightning",
-      "statistical": "out of date",
-      "programmed": "broken",
-      "data": "random text",
-      "predications": "random guesses",
-
-      /* made for https://www.reddit.com/r/linusrants/hot/ */
-      rant: "love-speech",
-      rants: "love-speeches",
-      fart: "look",
-      "call your mother a hamster": "congratulate your mother for making you",
-      stupidity: "geniousness",
-      snuffed: "overwhelmed",
-      "fucking asshole": "not the hero we need, but the hero we deserve",
-      "real toilet paper": "your code",
-      "I won't have splinters and ink up my arse": "projects would be much more innovative",
-      "die as babies": "become super popular",
-      "stupid to find a tit to suck on": "good to write such code",
-      "garbage": "on another level",
-      DAMMIT: "MAKE PEACE NOT WAR",
-      "either genius, or a seriously diseased mind. I can't quite tell which": "beyond genius",
-      clown: "right",
-
-      /* made for https://twitter.com/realDonaldTrump/status/871899511525961728 */
-      "a TRAVEL BAN for certain DANGEROUS countries, not some politically correct term that won't help us protect our people": "more PEACE"
-    }
-  };
-
+(function() {  
   const overlay = document.createElement('div');
   const style = `
     position:fixed;
@@ -72,7 +35,28 @@
     transition:all 0.75s ease 0.2s;
   `;
 
-  document.querySelector('body').appendChild(overlay);
+  const configFrame = document.createElement('iframe');
+  configFrame.cssText = `
+    border:none;
+    width:0;
+    height:0;
+    overflow:hidden;
+    opacity:0;
+    pointer-events:none;
+  `;
+
+  configFrame.addEventListener('load', () => {
+    configFrame.contentWindow.addEventListener('message', (msg) => {
+      console.log("Received", msg);
+      replace();
+    });
+  });
+
+  const body = document.querySelector('body');
+  body.appendChild(overlay);
+  body.appendChild(configFrame);
+
+  configFrame.src = "https://moopoo.serious-coding.biz/getconfig.html";
   
   function textNodesUnder(el) {
     let n, a=[], walk=document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
@@ -86,55 +70,57 @@
 
   const nodes = textNodesUnder(document).concat(inputNodesUnder(document));
   
-  const payload = {
-    "type": "text",
-    "text": nodes.map(e => {
-      if (e.textContent) return e.textContent;
-      else if (e.value) return e.value;
-      else {
-        console.log("Unknown el", e);
-        return '';
-      }
-    }),
-    "poomap": config.poomap
-  };
+  function replace() {
+    const payload = {
+      "type": "text",
+      "text": nodes.map(e => {
+        if (e.textContent) return e.textContent;
+        else if (e.value) return e.value;
+        else {
+          console.log("Unknown el", e);
+          return '';
+        }
+      }),
+      "poomap": config.poomap
+    };
 
-  const pooped = poopify(payload.poomap, payload.text);
+    const pooped = poopify(payload.poomap, payload.text);
 
-  nodes.forEach((el, ix) => {
-    if (el.textContent) el.nodeValue = pooped.text[ix];
-    else if (el.value) el.value = pooped.text[ix];
-    else console.log("Unknown el", el);
-  });
-  animation.play();
-
-  setTimeout(() => {
-    overlay.style["transition"] = "all 2s ease 1s";
-    animation.style["transition"] = "all 0.3s ease";
-  
-    setTimeout(() => {
-      overlay.style["background-color"] = '#e4377c';
-    }, 16);
-  }, 300);
-
-  setTimeout(() => {
-    overlay.style["transition"] = "all 1s ease";
-    overlay.style.opacity = 0;
+    nodes.forEach((el, ix) => {
+      if (el.textContent) el.nodeValue = pooped.text[ix];
+      else if (el.value) el.value = pooped.text[ix];
+      else console.log("Unknown el", el);
+    });
+    animation.play();
 
     setTimeout(() => {
-      overlay.remove();
-    }, 2016);
-  }, 2000);
+      overlay.style["transition"] = "all 2s ease 1s";
+      animation.style["transition"] = "all 0.3s ease";
 
-  setTimeout(() => {
-    animation.style['transform'] = 'translateX(-50%) translateY(-50%) scale(3)';
-    animation.style['opacity'] = 0;
-  }, 2000);
+      setTimeout(() => {
+        overlay.style["background-color"] = '#e4377c';
+      }, 16);
+    }, 300);
 
-  animation.addEventListener('ended', () => {
-    
-  });
-  
+    setTimeout(() => {
+      overlay.style["transition"] = "all 1s ease";
+      overlay.style.opacity = 0;
+
+      setTimeout(() => {
+        overlay.remove();
+      }, 2016);
+    }, 2000);
+
+    setTimeout(() => {
+      animation.style['transform'] = 'translateX(-50%) translateY(-50%) scale(3)';
+      animation.style['opacity'] = 0;
+    }, 2000);
+
+    animation.addEventListener('ended', () => {
+
+    });
+  }
+
   function poopify(poomap, text) {
     Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
       const reg = new RegExp(badwordRegExpStr, badwordRegExpStr === badwordRegExpStr.toUpperCase() ? 'g' : 'gi');
