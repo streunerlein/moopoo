@@ -36,7 +36,7 @@
   `;
 
   const configFrame = document.createElement('iframe');
-  configFrame.cssText = `
+  configFrame.style.cssText = `
     border:none;
     width:0;
     height:0;
