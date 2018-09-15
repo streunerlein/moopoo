@@ -9,5 +9,15 @@
  *                     More info: https://expressjs.com/en/api.html#res
  */
 exports.poopify = (req, res) => {
-  res.send('Hello Poo!');
+  const { poomap, text } = req.body;
+
+  res.json({ 
+    type: 'text',
+    poomap,
+    text: text.map(
+      t => t.split(' ').map(
+        word => poomap[word] || word
+      ).join(' ')
+    ),
+  });
 };
