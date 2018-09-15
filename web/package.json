@@ -6,7 +6,8 @@
     "@material-ui/core": "^3.0.3",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "react-speech-recognition": "^1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",

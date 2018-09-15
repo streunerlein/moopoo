@@ -21,7 +21,7 @@ class App extends React.Component {
     words: {
       "blockchain": "unnecessary complication",
       "machine intelligence": "overrated technology",
-      "artificial intelligence": "a bunch of if statements (AI)",
+      "artificial intelligence": "a bunch of if statements",
       "machine learning": "machine slavery",
       "algorithms": "unreadable code",
       "computers": "rocks with lightning",
@@ -46,7 +46,9 @@ class App extends React.Component {
       "garbage": "on another level",
       DAMMIT: "MAKE PEACE NOT WAR",
       "either genius, or a seriously diseased mind. I can't quite tell which": "beyond genius",
-      clown: "right"
+      clown: "right",
+
+      sucks: 'rocks'
     }
   };
 
