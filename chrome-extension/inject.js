@@ -45,11 +45,9 @@
     pointer-events:none;
   `;
 
-  configFrame.addEventListener('load', () => {
-    configFrame.contentWindow.addEventListener('message', (msg) => {
-      console.log("Received", msg);
-      replace();
-    });
+  window.addEventListener('message', (msg) => {
+    console.log("Received", msg);
+    replace();
   });
 
   const body = document.querySelector('body');
