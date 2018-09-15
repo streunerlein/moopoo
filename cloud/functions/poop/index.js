@@ -11,6 +11,16 @@
 exports.poopify = (req, res) => {
   const { poomap, text } = req.body;
 
+  if (!poomap) {
+    return res.status(400).json({ message: 'no poomap  provided in body'});
+  }
+  if (!text) {
+    return res.status(400).json({ message: 'no text provided in body'});
+  }
+  if (!Array.isArray(text)) {
+    return res.status(400).json({ message: 'text is not an array' });
+  }
+
   res.json({ 
     type: 'text',
     poomap,
