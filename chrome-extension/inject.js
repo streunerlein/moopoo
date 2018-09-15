@@ -1,8 +1,5 @@
 (function() {
   const config = {
-    endpoints: {
-      "poopify": "https://europe-west1-moopoo-216507.cloudfunctions.net/poopify"
-    },
     poomap: {
       /* made for https://en.wikipedia.org/wiki/Machine_learning */
       "blockchain": "unnecessary complication",
@@ -33,8 +30,6 @@
       DAMMIT: "MAKE PEACE NOT WAR",
       "either genius, or a seriously diseased mind. I can't quite tell which": "beyond genius",
       clown: "right",
-
-
     }
   };
 
