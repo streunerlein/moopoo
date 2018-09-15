@@ -19,6 +19,7 @@ class LiveComponent extends React.Component {
       }
       this.recognition.onresult = (e) => {
         const { transcript } = e.results[0][0];
+        console.log(transcript);
         this.textToSpeech(transcript).then(audioContent => {
           this.setState({ audioContent });
         })
