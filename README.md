@@ -1,6 +1,10 @@
 # moopoo
 🐮💩
 
+## Cloud Function Endpoints
+
+ - ```https://europe-west1-moopoo-216507.cloudfunctions.net/poopify```
+
 ## Deploy Google Cloud function
 
 Install `glcoud` utility: https://cloud.google.com/sdk/docs/downloads-interactive
