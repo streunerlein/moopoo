@@ -30,6 +30,9 @@
       DAMMIT: "MAKE PEACE NOT WAR",
       "either genius, or a seriously diseased mind. I can't quite tell which": "beyond genius",
       clown: "right",
+
+      /* made for https://twitter.com/realDonaldTrump/status/871899511525961728 */
+      "a TRAVEL BAN for certain DANGEROUS countries, not some politically correct term that won't help us protect our people": "more PEACE"
     }
   };
 
