@@ -9,5 +9,5 @@ Deploy (e.g. poop function):
 
 ```
 cd cloud/functions/poop/
-gcloud functions deploy poopify --trigger-http
+gcloud functions deploy poopify --region=europe-west1 --trigger-http
 ```
