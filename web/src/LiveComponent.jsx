@@ -9,21 +9,21 @@ class LiveComponent extends React.Component {
   };
 
   componentDidMount() {
-    this.recognition = window.hasOwnProperty('webkitSpeechRecognition')
-      ? new window.webkitSpeechRecognition()
-      : null;
-    this.recognition.continuous = true;
-    this.recognition.interimResults = false;
-    this.recognition.lang = "en-US";
-    this.recognition.onerror = (e) => {
-      this.setState({ isRecording: false, audioContent: null });
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+      this.recognition = new window.webkitSpeechRecognition();
+      this.recognition.continuous = true;
+      this.recognition.interimResults = false;
+      this.recognition.lang = "en-US";
+      this.recognition.onerror = (e) => {
+        this.setState({ isRecording: false, audioContent: null });
+      }
+      this.recognition.onresult = (e) => {
+        const { transcript } = e.results[0][0];
+        this.textToSpeech(transcript).then(audioContent => {
+          this.setState({ audioContent });
+        })
+      };
     }
-    this.recognition.onresult = (e) => {
-      const { transcript } = e.results[0][0];
-      this.textToSpeech(transcript).then(audioContent => {
-        this.setState({ audioContent });
-      })
-    };
   }
   
   onRecordDown() {
