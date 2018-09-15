@@ -10,11 +10,8 @@
     ],
     "persistent": true
   },
-  "web_accessible_resources": [
-    "assets/laughing-cat-alpha.webm"
-  ],
   "browser_action": {
-    "default_title": "Inject!"
+    "default_title": "Moo. Moo."
   },
   "permissions": [
     "https://*/*",

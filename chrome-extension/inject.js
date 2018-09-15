@@ -1,13 +1,10 @@
 
 (function() {
   const config = {
-    endpoints: {
-      "poopify": "https://europe-west1-moopoo-216507.cloudfunctions.net/poopify"
-    },
     poomap: {
       "shit": "poo",
       "blockchain": "that technology over there",
-      "(?=.*\\s)AI(?=\\s.*)": "a bunch of if statements"
+      "AI": "a bunch of if statements"
     }
   };
 
