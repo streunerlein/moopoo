@@ -6,9 +6,9 @@
     },
     poomap: {
       "shit": "poo",
-      "Shit": "Poo",
       "blockchain": "that technology over there",
-      "(?=.*\\s)AI(?=\\s.*)": "a bunch of if statements"
+      // "(?=.*\\s)AI(?=\\s.*)": "a bunch of if statements"
+      "AI": "a bunch of if statements"
     }
   };
 
@@ -22,6 +22,9 @@
     overflow:hidden;
     z-index:1000000;
     background-color:#2b91f1;
+    transition:all 0.3s ease;
+    opacity:0;
+    cursor-pointer:none;
   `;
   overlay.style.cssText = style;
 
@@ -30,6 +33,10 @@
   document.querySelector('body').appendChild(overlay);
   const animation = overlay.querySelector('video');
 
+  setTimeout(() => {
+    overlay.style.opacity = 1;
+  }, 16);
+
   animation.style.cssText = `
     height: 300px;
     margin: auto;
@@ -37,6 +44,7 @@
     top: 35%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
+    transform-origin:150px 150px;
   `;
   
   function textNodesUnder(el) {
@@ -64,6 +72,40 @@
     "poomap": config.poomap
   };
 
+  const pooped = poopify(payload.poomap, payload.text);
+
+  nodes.forEach((el, ix) => {
+    if (el.textContent) el.nodeValue = pooped.text[ix];
+    else if (el.value) el.value = pooped.text[ix];
+    else console.log("Unknown el", el);
+  });
+  animation.play();
+
+  overlay.style["transition"] = "all 1s ease 1s";
+  animation.style["transition"] = "all 0.3s ease";
+
+  setTimeout(() => {
+    overlay.style["background-color"] = '#e4377c';
+  }, 16);
+
+  setTimeout(() => {
+    overlay.style.opacity = 0;
+
+    setTimeout(() => {
+      overlay.remove();
+    }, 2016);
+  }, 2000);
+
+  setTimeout(() => {
+    animation.style['transform'] = 'scale(3)';
+    animation.style['opacity'] = 0;
+  }, 2000);
+
+  animation.addEventListener('ended', () => {
+    
+  });
+  
+  /*
   fetch(config.endpoints.poopify, {
       method: "POST",
       headers: {
@@ -79,8 +121,43 @@
         else console.log("Unknown el", el);
       });
       animation.play();
+
+      overlay.style["transition"] = "all 1s ease 1s";
+      animation.style["transition"] = "all 0.3s ease";
+
+      setTimeout(() => {
+        overlay.style["background-color"] = '#e4377c';
+      }, 16);
+
+      setTimeout(() => {
+        overlay.style.opacity = 0;
+
+        setTimeout(() => {
+          overlay.remove();
+        }, 2016);
+      }, 2000);
+
+      setTimeout(() => {
+        animation.style['transform'] = 'scale(3)';
+        animation.style['opacity'] = 0;
+      }, 2000);
+
       animation.addEventListener('ended', () => {
-        overlay.remove();
+        
       });
     })
+    */
+    function poopify(poomap, text) {
+      Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
+        const reg = new RegExp(badwordRegExpStr, 'ig');
+        text = text.map(t => t.replace(reg, badword => {
+          const shouldUppercase = badword[0] === badword[0].toUpperCase();
+          return shouldUppercase 
+            ? goodword[0].toUpperCase() + goodword.substring(1)
+            : goodword;
+        }));
+      });
+
+      return { type: 'text', poomap, text };
+    }
 })();
