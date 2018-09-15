@@ -32,7 +32,6 @@ class App extends React.Component {
           <Tabs
               value={this.state.tabIx}
               indicatorColor="primary"
-              textColor="paper"
               onChange={this.handleChange}
               centered
             >
