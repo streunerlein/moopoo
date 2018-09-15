@@ -21,16 +21,14 @@ exports.poopify = (req, res) => {
     return res.status(400).json({ message: 'text is not an array' });
   }
 
-  text = text.map(t => {
-    Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
-      t = t.replace(new RegExp(badwordRegExpStr, 'ig'), badword => {
-        const shouldUppercase = badword[0] === badword[0].toUpperCase();
-        return shouldUppercase 
-          ? goodword[0].toUpperCase() + goodword.substring(1)
-          : goodword;
-      });
-    });
-    return t;
+  Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
+    const reg = new RegExp(badwordRegExpStr, 'ig');
+    text = text.map(t => t.replace(reg, badword => {
+      const shouldUppercase = badword[0] === badword[0].toUpperCase();
+      return shouldUppercase 
+        ? goodword[0].toUpperCase() + goodword.substring(1)
+        : goodword;
+    }));
   });
 
   res.json({ type: 'text', poomap, text });
