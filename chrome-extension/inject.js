@@ -1,13 +1,40 @@
-
 (function() {
   const config = {
     endpoints: {
       "poopify": "https://europe-west1-moopoo-216507.cloudfunctions.net/poopify"
     },
     poomap: {
-      "shit": "poo",
-      "blockchain": "that technology over there",
-      "(?=.*\\s)AI(?=\\s.*)": "a bunch of if statements"
+      /* made for https://en.wikipedia.org/wiki/Machine_learning */
+      "blockchain": "unnecessary complication",
+      "machine intelligence": "overrated technology",
+      "artificial intelligence": "a bunch of if statements (AI)",
+      "machine learning": "machine slavery",
+      "algorithms": "unreadable code",
+      "computers": "rocks with lightning",
+      "computer": "a rock with lightning",
+      "statistical": "out of date",
+      "programmed": "broken",
+      "data": "random text",
+      "predications": "random guesses",
+
+      /* made for https://www.reddit.com/r/linusrants/hot/ */
+      rant: "love-speech",
+      rants: "love-speeches",
+      fart: "look",
+      "call your mother a hamster": "congratulate your mother for making you",
+      stupidity: "geniousness",
+      snuffed: "overwhelmed",
+      "fucking asshole": "not the hero we need, but the hero we deserve",
+      "real toilet paper": "your code",
+      "I won't have splinters and ink up my arse": "projects would be much more innovative",
+      "die as babies": "become super popular",
+      "stupid to find a tit to suck on": "good to write such code",
+      "garbage": "on another level",
+      DAMMIT: "MAKE PEACE NOT WAR",
+      "either genius, or a seriously diseased mind. I can't quite tell which": "beyond genius",
+      clown: "right",
+
+
     }
   };
 
@@ -112,7 +139,7 @@
   
   function poopify(poomap, text) {
     Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
-      const reg = new RegExp(badwordRegExpStr, 'ig');
+      const reg = new RegExp(badwordRegExpStr, badwordRegExpStr === badwordRegExpStr.toUpperCase() ? 'g' : 'gi');
       text = text.map(t => t.replace(reg, badword => {
         const shouldUppercase = badword[0] === badword[0].toUpperCase();
         return shouldUppercase 
