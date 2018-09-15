@@ -7,8 +7,7 @@
     poomap: {
       "shit": "poo",
       "blockchain": "that technology over there",
-      // "(?=.*\\s)AI(?=\\s.*)": "a bunch of if statements"
-      "AI": "a bunch of if statements"
+      "(?=.*\\s)AI(?=\\s.*)": "a bunch of if statements"
     }
   };
 
@@ -30,11 +29,11 @@
 
   overlay.innerHTML = `<video src="https://serious-coding.biz/laughing-cat-alpha.webm" muted></video>`;
 
-  document.querySelector('body').appendChild(overlay);
   const animation = overlay.querySelector('video');
 
   setTimeout(() => {
     overlay.style.opacity = 1;
+    animation.style['transform'] = 'translateX(-50%) translateY(-50%) scale(1)';
   }, 16);
 
   animation.style.cssText = `
@@ -43,9 +42,12 @@
     position: absolute;
     top: 35%;
     left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    transform-origin:150px 150px;
+    transform: translateX(-50%) translateY(-50%) scale(0);
+    transform-origin: center 35%;
+    transition:all 0.75s ease 0.2s;
   `;
+
+  document.querySelector('body').appendChild(overlay);
   
   function textNodesUnder(el) {
     let n, a=[], walk=document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
@@ -81,14 +83,17 @@
   });
   animation.play();
 
-  overlay.style["transition"] = "all 1s ease 1s";
-  animation.style["transition"] = "all 0.3s ease";
+  setTimeout(() => {
+    overlay.style["transition"] = "all 2s ease 1s";
+    animation.style["transition"] = "all 0.3s ease";
+  
+    setTimeout(() => {
+      overlay.style["background-color"] = '#e4377c';
+    }, 16);
+  }, 300);
 
   setTimeout(() => {
-    overlay.style["background-color"] = '#e4377c';
-  }, 16);
-
-  setTimeout(() => {
+    overlay.style["transition"] = "all 1s ease";
     overlay.style.opacity = 0;
 
     setTimeout(() => {
@@ -97,7 +102,7 @@
   }, 2000);
 
   setTimeout(() => {
-    animation.style['transform'] = 'scale(3)';
+    animation.style['transform'] = 'translateX(-50%) translateY(-50%) scale(3)';
     animation.style['opacity'] = 0;
   }, 2000);
 
@@ -105,59 +110,17 @@
     
   });
   
-  /*
-  fetch(config.endpoints.poopify, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(payload)
-  })
-    .then(response => response.json())
-    .then(pooped => {
-      nodes.forEach((el, ix) => {
-        if (el.textContent) el.nodeValue = pooped.text[ix];
-        else if (el.value) el.value = pooped.text[ix];
-        else console.log("Unknown el", el);
-      });
-      animation.play();
+  function poopify(poomap, text) {
+    Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
+      const reg = new RegExp(badwordRegExpStr, 'ig');
+      text = text.map(t => t.replace(reg, badword => {
+        const shouldUppercase = badword[0] === badword[0].toUpperCase();
+        return shouldUppercase 
+          ? goodword[0].toUpperCase() + goodword.substring(1)
+          : goodword;
+      }));
+    });
 
-      overlay.style["transition"] = "all 1s ease 1s";
-      animation.style["transition"] = "all 0.3s ease";
-
-      setTimeout(() => {
-        overlay.style["background-color"] = '#e4377c';
-      }, 16);
-
-      setTimeout(() => {
-        overlay.style.opacity = 0;
-
-        setTimeout(() => {
-          overlay.remove();
-        }, 2016);
-      }, 2000);
-
-      setTimeout(() => {
-        animation.style['transform'] = 'scale(3)';
-        animation.style['opacity'] = 0;
-      }, 2000);
-
-      animation.addEventListener('ended', () => {
-        
-      });
-    })
-    */
-    function poopify(poomap, text) {
-      Object.entries(poomap).forEach(([badwordRegExpStr, goodword]) => {
-        const reg = new RegExp(badwordRegExpStr, 'ig');
-        text = text.map(t => t.replace(reg, badword => {
-          const shouldUppercase = badword[0] === badword[0].toUpperCase();
-          return shouldUppercase 
-            ? goodword[0].toUpperCase() + goodword.substring(1)
-            : goodword;
-        }));
-      });
-
-      return { type: 'text', poomap, text };
-    }
+    return { type: 'text', poomap, text };
+  }
 })();
