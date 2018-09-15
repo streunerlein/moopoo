@@ -30,7 +30,7 @@ class App extends React.Component {
       "statistical": "out of date",
       "programmed": "broken",
       "data": "random text",
-      "predications": "random guesses",
+      "predictions": "random guesses",
 
       /* made for https://www.reddit.com/r/linusrants/hot/ */
       rant: "love-speech",
