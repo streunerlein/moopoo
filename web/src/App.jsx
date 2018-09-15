@@ -5,7 +5,8 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import SettingsComponent from './SettingsComponent';
 import LiveComponent from './LiveComponent';
-import FileComponent from './FileComponent';
+import ImageComponent from './ImageComponent';
+import logo from './logo.png'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -99,7 +100,8 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app">
-          <h1>MooPoo</h1>
+          <img src={logo} style={{maxHeight:'15vh'}} />
+          <h1 style={{fontFamily: "'Varela Round', sans-serif", fontSize: '45px'}}>moopoo</h1>
           <Tabs
               value={this.state.tabIx}
               indicatorColor="primary"
@@ -119,7 +121,7 @@ class App extends React.Component {
           }
           {this.state.tabIx === 1 &&
             <div>
-              <FileComponent
+              <ImageComponent
                 words={this.state.words}
               />
             </div>}

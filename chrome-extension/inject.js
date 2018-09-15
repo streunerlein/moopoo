@@ -45,11 +45,10 @@
     pointer-events:none;
   `;
 
-  configFrame.addEventListener('load', () => {
-    configFrame.contentWindow.addEventListener('message', (msg) => {
-      console.log("Received", msg);
-      replace();
-    });
+  window.addEventListener('message', (msg) => {
+    if (msg.origin == "https://moopoo.serious-coding.biz") {
+      replace(JSON.parse(msg.data));
+    }
   });
 
   const body = document.querySelector('body');
@@ -70,7 +69,8 @@
 
   const nodes = textNodesUnder(document).concat(inputNodesUnder(document));
   
-  function replace() {
+  function replace(poomap) {
+    debugger;
     const payload = {
       "type": "text",
       "text": nodes.map(e => {
@@ -81,7 +81,7 @@
           return '';
         }
       }),
-      "poomap": config.poomap
+      "poomap": poomap
     };
 
     const pooped = poopify(payload.poomap, payload.text);
