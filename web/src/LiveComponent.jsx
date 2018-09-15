@@ -2,48 +2,45 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 
-const styles = {
-  largeIcon: {
-    fontSize: 64
-  },
-};
-
 class LiveComponent extends React.Component {
   state = {
     audioContent: null,
     isRecording: false,
   };
+
+  componentDidMount() {
+    this.recognition = window.hasOwnProperty('webkitSpeechRecognition')
+      ? new window.webkitSpeechRecognition()
+      : null;
+    this.recognition.continuous = true;
+    this.recognition.interimResults = false;
+    this.recognition.lang = "en-US";
+    this.recognition.onerror = (e) => {
+      this.setState({ isRecording: false, audioContent: null });
+    }
+    this.recognition.onresult = (e) => {
+      const { transcript } = e.results[0][0];
+      this.textToSpeech(transcript).then(audioContent => {
+        this.setState({ audioContent });
+      })
+    };
+  }
   
-  onRecordClick() {
+  onRecordDown() {
     return async () => {
-      this.setState({ isRecording: true });
-      const originalText = await record();
-      this.setState({ isRecording: false });
-      const [ poopifiedText ] = window.poopify(this.props.words, [ originalText ]);
-      const response = await fetch(
-        'https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=AIzaSyDx-aPyKp11pbF4tYzAHj4SYhlVjghMqKU', 
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body:JSON.stringify({
-            audioConfig: {
-              audioEncoding: "LINEAR16",
-              pitch: "0.00",
-              speakingRate: "1.00"
-            },
-            input: { text: poopifiedText },
-            voice: {
-              languageCode: "en-US",
-              name: "en-US-Wavenet-D"
-            }
-          }),
-        },
-      );  
-      const { audioContent } = await response.json();
-      this.setState({ audioContent })
+      if (this.recognition) {
+        this.setState({ isRecording: true });
+        this.recognition.start();
+      }
+    };
+  }
+
+  onRecordUp() {
+    return async () => {
+      if (this.recognition) {
+        this.setState({ isRecording: false });
+        this.recognition.stop();
+      }
     };
   }
 
@@ -57,12 +54,41 @@ class LiveComponent extends React.Component {
     };
   }
 
+  async textToSpeech(originalText) {
+    const [ poopifiedText ] = window.poopify(this.props.words, [ originalText ]);
+    const response = await fetch(
+      'https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=AIzaSyDx-aPyKp11pbF4tYzAHj4SYhlVjghMqKU', 
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+          audioConfig: {
+            audioEncoding: "LINEAR16",
+            pitch: "0.00",
+            speakingRate: "1.00"
+          },
+          input: { text: poopifiedText },
+          voice: {
+            languageCode: "en-US",
+            name: "en-US-Wavenet-D"
+          }
+        }),
+      },
+    );  
+    const { audioContent } = await response.json();
+    return audioContent;
+  }
+
   render() {
     return (
       <div>
         <h3>Live</h3>
         <IconButton 
-          onClick={this.onRecordClick()} 
+          onMouseDown={this.onRecordDown()}
+          onMouseUp={this.onRecordUp()}
           aria-label="Mic"
         >
           <Icon style={{ 
@@ -80,28 +106,6 @@ class LiveComponent extends React.Component {
         {this.state.audioContent && (<audio src={`data:audio/mp3;base64,${this.state.audioContent}`} autoPlay/>)}
       </div>
     );
-  }
-}
-
-async function record() {
-  if (window.hasOwnProperty('webkitSpeechRecognition')) {
-    const recognition = new window.webkitSpeechRecognition();
-
-    recognition.continuous = false;
-    recognition.interimResults = false;
-
-    recognition.lang = "en-US";
-    recognition.start();
-    return new Promise((resolve, reject) => {
-      recognition.onresult = (e) => {
-        recognition.stop();
-        resolve(e.results[0][0].transcript);
-      };
-      recognition.onerror = e => {
-        recognition.stop();
-        reject();
-      }
-    });
   }
 }
 
