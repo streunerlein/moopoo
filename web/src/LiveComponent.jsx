@@ -23,6 +23,8 @@ class LiveComponent extends React.Component {
           this.setState({ audioContent });
         })
       };
+    } else {
+      alert('not supported');
     }
   }
   
