@@ -5,6 +5,7 @@ class FileComponent extends React.Component {
     return (
       <div>
         <h3>File</h3>
+        
       </div>
     );
   }
