@@ -5,7 +5,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import SettingsComponent from './SettingsComponent';
 import LiveComponent from './LiveComponent';
-import FileComponent from './FileComponent';
+import ImageComponent from './ImageComponent';
 import logo from './logo.png'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -121,7 +121,7 @@ class App extends React.Component {
           }
           {this.state.tabIx === 1 &&
             <div>
-              <FileComponent
+              <ImageComponent
                 words={this.state.words}
               />
             </div>}
