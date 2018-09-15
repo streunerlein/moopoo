@@ -46,7 +46,10 @@
   `;
 
   configFrame.addEventListener('load', () => {
-    configFrame.contentWindow.postMessage('getconfig', '*');
+    configFrame.contentWindow.addEventListener('message', (msg) => {
+      console.log("Received", msg);
+      replace();
+    });
   });
 
   const body = document.querySelector('body');
@@ -54,11 +57,6 @@
   body.appendChild(configFrame);
 
   configFrame.src = "https://moopoo.serious-coding.biz/getconfig.html";
-
-  configFrame.addEventListener('message', (msg) => {
-    console.log("Received", msg);
-    replace();
-  });
   
   function textNodesUnder(el) {
     let n, a=[], walk=document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
