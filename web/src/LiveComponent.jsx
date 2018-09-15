@@ -38,7 +38,11 @@ class LiveComponent extends React.Component {
 
   onPlayClick() {
     return () => {
-      console.log('play');
+      const { audioContent } = this.state;
+      this.setState({ audioContent: null });
+      setTimeout(() => {
+        this.setState({ audioContent });
+      }, 100);
     };
   }
   render() {
@@ -50,7 +54,7 @@ class LiveComponent extends React.Component {
           onClick={this.onPlayClick()} 
           disabled={!this.state.audioContent}
         >PL</button>
-        {this.state.audioContent && (<audio src={`data:audio/mp3;base64,${this.state.audioContent}`} controls />)}
+        {this.state.audioContent && (<audio src={`data:audio/mp3;base64,${this.state.audioContent}`} autoPlay/>)}
       </div>
     );
   }
