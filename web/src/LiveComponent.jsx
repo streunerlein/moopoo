@@ -1,13 +1,24 @@
 import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
+
+const styles = {
+  largeIcon: {
+    fontSize: 64
+  },
+};
 
 class LiveComponent extends React.Component {
   state = {
-    audioContent: null
+    audioContent: null,
+    isRecording: false,
   };
   
   onRecordClick() {
     return async () => {
+      this.setState({ isRecording: true });
       const originalText = await record();
+      this.setState({ isRecording: false });
       const [ poopifiedText ] = window.poopify(this.props.words, [ originalText ]);
       const response = await fetch(
         'https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=AIzaSyDx-aPyKp11pbF4tYzAHj4SYhlVjghMqKU', 
@@ -45,15 +56,27 @@ class LiveComponent extends React.Component {
       }, 100);
     };
   }
+
   render() {
     return (
       <div>
         <h3>Live</h3>
-        <button onClick={this.onRecordClick()}>REC</button>
-        <button 
+        <IconButton 
+          onClick={this.onRecordClick()} 
+          aria-label="Mic"
+        >
+          <Icon style={{ 
+            fontSize: 64, 
+            color: this.state.isRecording ? undefined : '#f50057' 
+          }}>mic</Icon>
+        </IconButton>
+        <IconButton 
           onClick={this.onPlayClick()} 
+          aria-label="PlayCircleOutline"
           disabled={!this.state.audioContent}
-        >PL</button>
+        >
+          <Icon style={{ fontSize: 64 }}>play_circle_outline</Icon>
+        </IconButton>
         {this.state.audioContent && (<audio src={`data:audio/mp3;base64,${this.state.audioContent}`} autoPlay/>)}
       </div>
     );
