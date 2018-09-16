@@ -85,19 +85,20 @@ class LiveComponent extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Live</h3>
+      <div style={{marginTop:'3em'}}>
         <IconButton 
+          style={{margin:'1em'}}
           onMouseDown={this.onRecordDown()}
           onMouseUp={this.onRecordUp()}
           aria-label="Mic"
         >
           <Icon style={{ 
             fontSize: 64, 
-            color: this.state.isRecording ? undefined : '#f50057' 
+            color: this.state.isRecording ? undefined : 'rgb(212, 59, 59)' 
           }}>mic</Icon>
         </IconButton>
         <IconButton 
+          style={{margin:'1em'}}
           onClick={this.onPlayClick()} 
           aria-label="PlayCircleOutline"
           disabled={!this.state.audioContent}

@@ -12,7 +12,11 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark'
+    type: 'light',
+    primary: {
+      main: '#efefef',
+      dark: '#555'
+    }
   },
 });
 
@@ -134,6 +138,13 @@ class App extends React.Component {
               />
             </div>}
         </div>
+        <Button variant="contained" color="primary" style={{
+          position: 'absolute',
+          top: '5vh',
+          right: '1vw',
+        }} onClick={() => window.location.href="/moopoo-extension.zip"}>
+          Get Extension
+        </Button>
       </MuiThemeProvider>
     );
   }
