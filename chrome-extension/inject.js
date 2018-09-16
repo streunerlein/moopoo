@@ -70,7 +70,6 @@
   const nodes = textNodesUnder(document).concat(inputNodesUnder(document));
   
   function replace(poomap) {
-    debugger;
     const payload = {
       "type": "text",
       "text": nodes.map(e => {
